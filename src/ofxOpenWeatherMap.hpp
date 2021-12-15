@@ -20,6 +20,7 @@ class ofxOpenWeatherMap : ofxAbstractWeather {
 public:
     void setApiKey(string key);
     void setCityAndCountryCode(string city);
+    void setUnits(string unitsOfMeasurement);
     void setHasLocalFile(bool hasLocalFile);
     void setLocalFilename(string filename);
     ofJson loadData();
@@ -38,9 +39,10 @@ public:
 
 private:
     WeatherData currentData;
-    std::vector<WeatherData> forecasts;
-    std::string sunRise;
-    std::string sunSet;
+    vector<WeatherData> forecasts;
+    string sunRise;
+    string sunSet;
+    string units{"metric"};
     bool hasLocalFile{false};
     string localFilename{"weather.xml"};
     string apiKey{""};

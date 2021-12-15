@@ -10,47 +10,39 @@
 using namespace std;
 
 
-ofJson ofxOpenWeatherMap::loadData() {
-    string url = "http://api.openweathermap.org/data/2.5/forecast?q={cityAndCountryCode}&appid={apiKey}";
+ofJson ofxOpenWeatherMap::loadData(){
+    string url = "http://api.openweathermap.org/data/2.5/forecast?q={cityAndCountryCode}&appid={apiKey}&units={units}";
     
-    ofStringReplace(url, "{apiKey}", apiKey);
     ofStringReplace(url, "{cityAndCountryCode}", cityAndCountryCode);
-    
-    ofLog() << url;
+    ofStringReplace(url, "{apiKey}", apiKey);
+    ofStringReplace(url, "{units}", units);
+
+    ofLog(OF_LOG_VERBOSE, "ofxAbstractWeather: " + url);
     ofHttpResponse response = ofLoadURL(url);
-    ofLog() << response.data;
+    ofLog(OF_LOG_VERBOSE, "ofxAbstractWeather: " + ofToString(response.data));
     
     ofJson js;
-    try
-    {
+    try{
         js = ofJson::parse(response.data);
+    }catch(ofJson::parse_error& ex){
+        ofLog(OF_LOG_ERROR, "ofxAbstractWeather: couldn't parse json at " + ofToString( ex.byte));
     }
-    catch (ofJson::parse_error& ex)
-    {
-        std::cerr << "parse error at byte " << ex.byte << std::endl;
-    }
-    
     return js;
 }
 
-void ofxOpenWeatherMap::parseData(ofJson js) {
-    // ofLog() << js;
-
+void ofxOpenWeatherMap::parseData(ofJson js){
     // global weatherdata
     auto sunrise = js.at("city").at("sunrise");
     auto sunset  = js.at("city").at("sunset");
-    // auto t = std::chrono::system_clock::to_time_t(sunrise);
     // ofLog() << t;
-    // ofLog() << sunrise;
-    
     sunRise = std::to_string(static_cast<int>(js.at("city").at("sunrise")));
     sunSet  = std::to_string(static_cast<int>(js.at("city").at("sunset")));
 
     // time-nodes
-    for (auto &timeNode : js.at("list")) {
+    for(auto &timeNode : js.at("list")) {
         WeatherData weatherData;
         weatherData.from = timeNode.at("dt_txt");
-        auto temperature = static_cast<float>(timeNode.at("main").at("temp")) - 273.15;
+        auto temperature = static_cast<float>(timeNode.at("main").at("temp"));
         // ofLog() << temperature;
         weatherData.temperature = temperature;
         // windspeed
@@ -60,124 +52,121 @@ void ofxOpenWeatherMap::parseData(ofJson js) {
         
         auto windDirection = timeNode.at("wind").at("deg");
         weatherData.windDirection = windDirection;
-            
         // rain
-        try {
+        try{
             auto precipitation = timeNode.at("rain").at("3h");
             weatherData.precipitation = precipitation;
             weatherData.rainOrSnow = OFX_WEATHER_RAIN;
-        } catch (ofJson::out_of_range& e) {
-            std::cout << "message: " << e.what() << '\n'
-                      << "exception id: " << e.id << std::endl;
+        }catch(ofJson::out_of_range& e){
+            ofLogNotice() << "ofxAbstractWeather: parse json " << e.what() << ", exception id: " << e.id;
         }
-            
         // snow
-        try {
+        try{
             auto precipitation = timeNode.at("snow").at("3h");
             weatherData.precipitation = precipitation;
             weatherData.rainOrSnow = OFX_WEATHER_SNOW;
-        } catch (ofJson::out_of_range& e) {
-            std::cout << "message: " << e.what() << '\n'
-                      << "exception id: " << e.id << std::endl;
+        }catch(ofJson::out_of_range& e){
+            ofLogNotice() << "ofxAbstractWeather: parse json " << e.what() << ", exception id: " << e.id;
         }
-        
         // clouds in percent
         auto clouds = timeNode.at("clouds").at("all");
         weatherData.clouds = clouds;
         
         forecasts.push_back(weatherData);
     }
-    // TODO check current time and time node
     currentData = forecasts.at(0);
 }
 
-float ofxOpenWeatherMap::getAverageTemperature() {
+float ofxOpenWeatherMap::getAverageTemperature(){
     // reading forecasts
     float temp;
     int max = forecasts.size();
-    if (max > 5) {
+    if(max > 5){
         max = 5;
     }
     
-    for(unsigned i=0; i < max; i++) {
+    for(unsigned i=0; i < max; i++){
         temp += forecasts.at(i).temperature ;
     }
     return temp / max;
 }
 
-float ofxOpenWeatherMap::getAveragePrecipitation() {
+float ofxOpenWeatherMap::getAveragePrecipitation(){
     // reading forecasts
     float temp;
     int max = forecasts.size();
-    if (max > 5) {
+    if(max > 5){
         max = 5;
     }
-    
-    for(unsigned i=0; i < max; i++) {
+    for(unsigned i=0; i < max; i++){
         temp += forecasts.at(i).precipitation ;
     }
     return temp / max;
 }
 
 
-int ofxOpenWeatherMap::getTemperatureTrend() {
-    if (getAverageTemperature() >= getCurrentTemperature()) {
+int ofxOpenWeatherMap::getTemperatureTrend(){
+    if(getAverageTemperature() >= getCurrentTemperature()){
         return (getAverageTemperature() == getCurrentTemperature()) ? 0 : 1;
-    } else {
+    }else{
         return -1;
     }
 }
 
-
-string ofxOpenWeatherMap::getSunRise() {
+string ofxOpenWeatherMap::getSunRise(){
     return sunRise;
 }
 
-string ofxOpenWeatherMap::getSunSet() {
+string ofxOpenWeatherMap::getSunSet(){
     return sunSet;
 }
 
-
-WeatherData ofxOpenWeatherMap::getCurrentData() {
+WeatherData ofxOpenWeatherMap::getCurrentData(){
     return currentData;
 }
 
-
-float ofxOpenWeatherMap::getCurrentTemperature() {
+float ofxOpenWeatherMap::getCurrentTemperature(){
     return currentData.temperature;
 }
 
-float ofxOpenWeatherMap::getCurrentWindSpeed() {
+float ofxOpenWeatherMap::getCurrentWindSpeed(){
     return currentData.windSpeed;
 }
 
-float ofxOpenWeatherMap::getPrecipitation() {
+float ofxOpenWeatherMap::getPrecipitation(){
     return currentData.precipitation;
 }
 
-
-
-int ofxOpenWeatherMap::getCurrentWindDirection() {
+int ofxOpenWeatherMap::getCurrentWindDirection(){
     return currentData.windDirection;
 }
 
-int ofxOpenWeatherMap::getCurrentClouds() {
+int ofxOpenWeatherMap::getCurrentClouds(){
     return currentData.clouds;
 }
 
-
-void ofxOpenWeatherMap::setHasLocalFile(bool hasLocal) {
+void ofxOpenWeatherMap::setHasLocalFile(bool hasLocal){
     hasLocalFile = hasLocal;
 }
 
-void ofxOpenWeatherMap::setLocalFilename(string filename) {
+void ofxOpenWeatherMap::setLocalFilename(string filename){
    localFilename = filename; 
 }
 
-void ofxOpenWeatherMap::setApiKey(string key) {
+void ofxOpenWeatherMap::setApiKey(string key){
     apiKey = key;
 }
 
-void ofxOpenWeatherMap::setCityAndCountryCode(string city) {
+void ofxOpenWeatherMap::setCityAndCountryCode(string city){
     cityAndCountryCode = city;
+}
+
+void ofxOpenWeatherMap::setUnits(string unitsOfMeasurement){
+    // temperature in Fahrenheit: "imperial", Kelvin: "standard", Celsius: "metric"
+    vector<string> availableUnits = {"standard", "metric", "imperial"};
+    if (count(availableUnits.begin(), availableUnits.end(), unitsOfMeasurement) > 0) {
+        units = unitsOfMeasurement;
+    }else{
+        ofLogWarning("ofxAbstractWeather: unknow given units, using metric system");
+    }
 }

@@ -31,6 +31,16 @@ void ofApp::update(){
 ![example_openweathermap](https://user-images.githubusercontent.com/445226/145677289-788d8c2d-52fd-4b23-bed3-b1c73b7518d9.png)
 
 
+Optional: Set Units of Measurement:
+
+```c++
+    // temperature in Celsius use units=metric (default)   
+    // in Fahrenheit use "imperial", in Kelvin "standard"
+    weather.setUnits("standard");
+    // load
+```
+
+
 License
 -------
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
@@ -52,11 +62,12 @@ Tested with OF 0.11.2
 Known issues
 ------------
 ### Roadmap
-- additional units: 
-   - standard, metric, and imperial support
-- rain/snow example
-- add default icons
-- add more providers/integrations
+- [x] additional units: 
+      - standard, metric, and imperial support
+- [ ] rain/snow example
+- [ ] add default icons mapping
+- [ ] add more providers/integrations
+
 
 Version history
 ------------
