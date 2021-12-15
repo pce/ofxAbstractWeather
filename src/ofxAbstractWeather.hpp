@@ -19,7 +19,7 @@ struct WeatherData {
   float windDirection;
   int clouds;
   float precipitation;
-  int rainOrSnow; // 0=none, 1=rain, 2=snow
+  int rainOrSnow{0}; // 0=none, 1=rain, 2=snow
   std::string from;
   std::string to;
 };
@@ -29,7 +29,7 @@ struct WeatherData {
 
 
 class ofxAbstractWeather {
-public:
+  public:
     virtual WeatherData getCurrentData() = 0;
     virtual float getCurrentTemperature() = 0;
     // virtual float getCurrentWindSpeed() = 0;

@@ -50,8 +50,10 @@ void ofApp::draw(){
     
     mysmallfont.drawString(ofToString(currentClouds) + "% clouds", 100, 120);
     mysmallfont.drawString(ofToString(currentWindSpeed) + "mps", 100, 140);
-    mysmallfont.drawString(ofToString(currentWindDirection) + " as arc", 100, 160);
-    mysmallfont.drawString("~" + ofToString(currentAvgRain) + ", " + ofToString(currentRain) + " Rain", 100, 180);
+    mysmallfont.drawString(ofToString(currentWindDirection) + " wind direction", 100, 160);
+    if(weather.getRainOrSnow()){
+    mysmallfont.drawString("~" + ofToString(currentAvgRain) + ", " + ofToString(currentRain) + ((weather.getRainOrSnow() == OFX_WEATHER_RAIN) ? " Rain" : " Snow"), 100, 180);
+    }
     mysmallfont.drawString("~" + ofToString(currentAvg) + "°", 100, 200);
     if (currentTempTrend == 1) {
         mysmallfont.drawString("TREND TEMP UP", 100, 220);

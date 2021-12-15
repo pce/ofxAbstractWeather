@@ -64,7 +64,8 @@ Known issues
 ### Roadmap
 - [x] additional units: 
       - standard, metric, and imperial support
-- [ ] rain/snow example
+- [x] rain/snow
+- [ ] local file support
 - [ ] add default icons mapping
 - [ ] add more providers/integrations
 
@@ -73,8 +74,9 @@ Version history
 ------------
 Here you will find a version history (newest releases first), describing new features and changes to the addon. 
 
-### Version 0.1 (DateInTheFuture):
-Git-Tag to mark release 0.1 
+### Version 0.1 (2021-12-15):
+
+- inital release
 
 
 

@@ -17,7 +17,7 @@
 
 
 class ofxOpenWeatherMap : ofxAbstractWeather {
-public:
+  public:
     void setApiKey(string key);
     void setCityAndCountryCode(string city);
     void setUnits(string unitsOfMeasurement);
@@ -33,11 +33,12 @@ public:
     float getPrecipitation();
     int getCurrentWindDirection();
     int getCurrentClouds();
+    int getRainOrSnow();
     float getAveragePrecipitation();
     float getAverageTemperature();
     int getTemperatureTrend();
 
-private:
+  private:
     WeatherData currentData;
     vector<WeatherData> forecasts;
     string sunRise;

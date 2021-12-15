@@ -145,6 +145,10 @@ int ofxOpenWeatherMap::getCurrentClouds(){
     return currentData.clouds;
 }
 
+int ofxOpenWeatherMap::getRainOrSnow(){
+    return currentData.rainOrSnow;
+}
+
 void ofxOpenWeatherMap::setHasLocalFile(bool hasLocal){
     hasLocalFile = hasLocal;
 }
