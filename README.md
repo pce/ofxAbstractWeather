@@ -31,13 +31,12 @@ void ofApp::update(){
 ![example_openweathermap](https://user-images.githubusercontent.com/445226/145677289-788d8c2d-52fd-4b23-bed3-b1c73b7518d9.png)
 
 
-Optional: Set Units of Measurement:
+### Optional: Set Units of Measurement
 
 ```c++
-    // temperature in Celsius use units=metric (default)   
+    // temperature in Celsius use "metric" (default)   
     // in Fahrenheit use "imperial", in Kelvin "standard"
     weather.setUnits("standard");
-    // load
 ```
 
 
@@ -64,16 +63,14 @@ Known issues
 ### Roadmap
 - [x] additional units: 
       - standard, metric, and imperial support
-- [x] rain/snow
-- [ ] local file support
-- [ ] add default icons mapping
-- [ ] add more providers/integrations
+- [x] rain/snow
+- [ ] local file support
+- [ ] add default icons mapping
+- [ ] add more providers/integrations
 
 
 Version history
 ------------
-Here you will find a version history (newest releases first), describing new features and changes to the addon. 
-
 ### Version 0.1 (2021-12-15):
 
 - inital release
