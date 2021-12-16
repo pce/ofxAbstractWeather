@@ -14,20 +14,18 @@
 #include "ofMain.h"
 
 struct WeatherData {
-  float temperature;
-  float windSpeed;
-  float windDirection;
-  int clouds;
-  int humidity;
-  float precipitation;
-  int rainOrSnow{0}; // 0=none, 1=rain, 2=snow
-  std::string from;
-  std::string to;
+    float temperature{.0};
+    float windSpeed{.0};
+    float windDirection{.0};
+    int clouds{0};
+    int humidity{0};
+    float precipitation{.0};
+    int rainOrSnow{0}; // 0=none, 1=rain, 2=snow
+    std::string from{""};
+    std::string to{""};
+    static const int rain{1};
+    static const int snow{2};
 };
-
-#define OFX_WEATHER_RAIN 1
-#define OFX_WEATHER_SNOW 2
-
 
 class ofxAbstractWeather {
   public:

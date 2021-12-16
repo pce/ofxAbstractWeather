@@ -64,7 +64,7 @@ void ofxOpenWeatherMap::parseData(ofJson js){
         try{
             auto precipitation = timeNode.at("rain").at("3h");
             weatherData.precipitation = precipitation;
-            weatherData.rainOrSnow = OFX_WEATHER_RAIN;
+            weatherData.rainOrSnow = WeatherData::rain;
         }catch(ofJson::out_of_range& e){
             ofLogNotice() << "ofxAbstractWeather: parse json " << e.what() << ", exception id: " << e.id;
         }
@@ -72,7 +72,7 @@ void ofxOpenWeatherMap::parseData(ofJson js){
         try{
             auto precipitation = timeNode.at("snow").at("3h");
             weatherData.precipitation = precipitation;
-            weatherData.rainOrSnow = OFX_WEATHER_SNOW;
+            weatherData.rainOrSnow = WeatherData::snow;
         }catch(ofJson::out_of_range& e){
             ofLogNotice() << "ofxAbstractWeather: parse json " << e.what() << ", exception id: " << e.id;
         }

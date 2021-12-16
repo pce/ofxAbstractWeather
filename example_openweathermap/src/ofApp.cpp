@@ -54,7 +54,7 @@ void ofApp::draw(){
     mysmallfont.drawString(ofToString(currentWindSpeed) + "mps", 100, 140);
     mysmallfont.drawString(ofToString(currentWindDirection) + " wind direction", 100, 160);
     if(rainOrSnow){
-    mysmallfont.drawString("~" + ofToString(weather.getAveragePrecipitation()) + ", " + ofToString(weather.getPrecipitation()) + ((rainOrSnow == OFX_WEATHER_RAIN) ? " Rain" : " Snow"), 100, 180);
+        mysmallfont.drawString("~" + ofToString(weather.getAveragePrecipitation()) + ", " + ofToString(weather.getPrecipitation()) + ((rainOrSnow == WeatherData::rain) ? " Rain" : " Snow"), 100, 180);
     }
     mysmallfont.drawString("~" + ofToString(currentAvg) + "°", 100, 200);
     if (currentTempTrend == 1) {
