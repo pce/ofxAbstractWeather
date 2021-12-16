@@ -2,13 +2,14 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    
+    ofSetLogLevel(OF_LOG_VERBOSE);
     // weather
     string apiKey = "";
     string cityAndCountryCode = "Mainz,DE";
     
     weather.setApiKey(apiKey);
     weather.setCityAndCountryCode(cityAndCountryCode);
+    weather.setHasLocalFile(true);
     weather.parseData(weather.loadData());
     
     // font
@@ -32,10 +33,10 @@ void ofApp::update(){
     currentWindSpeed = weather.getCurrentWindSpeed();
     currentWindDirection = weather.getCurrentWindDirection();
     currentClouds = weather.getCurrentClouds();
-    currentRain = weather.getPrecipitation();
     currentAvg = weather.getAverageTemperature();
     currentTempTrend = weather.getTemperatureTrend();
-    currentAvgRain = weather.getAveragePrecipitation();
+    rainOrSnow = weather.getCurrentRainOrSnow();
+    currentHumidity = weather.getCurrentHumidity();
 }
 
 //--------------------------------------------------------------
@@ -46,13 +47,14 @@ void ofApp::draw(){
     
     ofBackgroundGradient(bgInnerColor, bgOuterColor);
     
-    myfont.drawString(ofToString(currentTemperature) + "°", 100, 100);
-    
+    myfont.drawString(ofToString(currentTemperature) + "°", 100, 80);
+
+    mysmallfont.drawString(ofToString(currentHumidity) + " humidity", 100, 100);
     mysmallfont.drawString(ofToString(currentClouds) + "% clouds", 100, 120);
     mysmallfont.drawString(ofToString(currentWindSpeed) + "mps", 100, 140);
     mysmallfont.drawString(ofToString(currentWindDirection) + " wind direction", 100, 160);
-    if(weather.getRainOrSnow()){
-    mysmallfont.drawString("~" + ofToString(currentAvgRain) + ", " + ofToString(currentRain) + ((weather.getRainOrSnow() == OFX_WEATHER_RAIN) ? " Rain" : " Snow"), 100, 180);
+    if(rainOrSnow){
+    mysmallfont.drawString("~" + ofToString(weather.getAveragePrecipitation()) + ", " + ofToString(weather.getPrecipitation()) + ((rainOrSnow == OFX_WEATHER_RAIN) ? " Rain" : " Snow"), 100, 180);
     }
     mysmallfont.drawString("~" + ofToString(currentAvg) + "°", 100, 200);
     if (currentTempTrend == 1) {

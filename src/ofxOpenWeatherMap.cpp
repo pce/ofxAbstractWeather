@@ -11,6 +11,12 @@ using namespace std;
 
 
 ofJson ofxOpenWeatherMap::loadData(){
+    
+    if (hasLocalFile) {
+        ofLog(OF_LOG_VERBOSE, "ofxAbstractWeather: load local filename=" + localFilename);
+        return ofLoadJson(localFilename);
+    }
+    
     string url = "http://api.openweathermap.org/data/2.5/forecast?q={cityAndCountryCode}&appid={apiKey}&units={units}";
     
     ofStringReplace(url, "{cityAndCountryCode}", cityAndCountryCode);
@@ -45,11 +51,13 @@ void ofxOpenWeatherMap::parseData(ofJson js){
         auto temperature = static_cast<float>(timeNode.at("main").at("temp"));
         // ofLog() << temperature;
         weatherData.temperature = temperature;
+        // humidity
+        weatherData.humidity = timeNode.at("main").at("humidity");
         // windspeed
         auto windSpeed = timeNode.at("wind").at("speed");
         // mps="2.48" unit="m/s" name="Light breeze"
         weatherData.windSpeed = windSpeed;
-        
+                
         auto windDirection = timeNode.at("wind").at("deg");
         weatherData.windDirection = windDirection;
         // rain
@@ -145,8 +153,12 @@ int ofxOpenWeatherMap::getCurrentClouds(){
     return currentData.clouds;
 }
 
-int ofxOpenWeatherMap::getRainOrSnow(){
+int ofxOpenWeatherMap::getCurrentRainOrSnow(){
     return currentData.rainOrSnow;
+}
+
+int ofxOpenWeatherMap::getCurrentHumidity(){
+    return currentData.humidity;
 }
 
 void ofxOpenWeatherMap::setHasLocalFile(bool hasLocal){

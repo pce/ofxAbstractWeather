@@ -30,6 +30,8 @@ private:
     ofxOpenWeatherMap weather;
     float currentTemperature;
     float currentWindSpeed;
+    int rainOrSnow;
+    int currentHumidity;
     float currentRain;
     float currentAvgRain;
     float currentAvg;

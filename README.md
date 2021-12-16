@@ -7,7 +7,9 @@ OpenFrameworks Weather-Data addon.
 
 ### Usage/Examples
 
-Create an API-Key at [OpenWeatherMap](https://openweathermap.org/) for the example.
+Create an API-Key at [OpenWeatherMap](https://openweathermap.org/) 
+or `weather.setHasLocalFile(true)` loads for example: `bin/data/openweathermap.json`
+
 
 ```c++
 void ofApp::setup(){
@@ -18,6 +20,7 @@ void ofApp::setup(){
 
 void ofApp::update(){
     currentTemperature = weather.getCurrentTemperature();
+    currentHumidity = weather.getCurrentHumidity();
     currentWindSpeed = weather.getCurrentWindSpeed();
     currentWindDirection = weather.getCurrentWindDirection();
     currentClouds = weather.getCurrentClouds();
@@ -64,13 +67,20 @@ Known issues
 - [x] additional units: 
       - standard, metric, and imperial support
 - [x] rain/snow
-- [ ] local file support
+- [x] humidity
+- [x] local file support
 - [ ] add default icons mapping
 - [ ] add more providers/integrations
 
 
 Version history
 ------------
+### Version 0.2 (2021-12-16):
+
+- humidity
+- local file support (example loads a cached json)
+
+
 ### Version 0.1 (2021-12-15):
 
 - inital release

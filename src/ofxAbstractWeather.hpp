@@ -18,6 +18,7 @@ struct WeatherData {
   float windSpeed;
   float windDirection;
   int clouds;
+  int humidity;
   float precipitation;
   int rainOrSnow{0}; // 0=none, 1=rain, 2=snow
   std::string from;

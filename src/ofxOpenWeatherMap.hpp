@@ -33,7 +33,8 @@ class ofxOpenWeatherMap : ofxAbstractWeather {
     float getPrecipitation();
     int getCurrentWindDirection();
     int getCurrentClouds();
-    int getRainOrSnow();
+    int getCurrentRainOrSnow();
+    int getCurrentHumidity();
     float getAveragePrecipitation();
     float getAverageTemperature();
     int getTemperatureTrend();
@@ -45,7 +46,7 @@ class ofxOpenWeatherMap : ofxAbstractWeather {
     string sunSet;
     string units{"metric"};
     bool hasLocalFile{false};
-    string localFilename{"weather.xml"};
+    string localFilename{"openweathermap.json"};
     string apiKey{""};
     string cityAndCountryCode{""};
 };
